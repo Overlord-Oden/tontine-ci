@@ -1,228 +1,272 @@
-# 🇨🇮 TontineApp — Sprint 1
+<div align="center">
 
-> Application mobile Flutter de gestion de tontines numériques pour la Côte d'Ivoire.
+# 📱 TontineApp
 
----
+### Application mobile Flutter de digitalisation des tontines avec intégration Mobile Money pour la Côte d'Ivoire 🇨🇮
 
-## 📌 État du projet
+[![Flutter](https://img.shields.io/badge/Flutter-3.27+-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-3.6+-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
+[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
+[![License](https://img.shields.io/badge/Licence-MIT-success?style=for-the-badge)](LICENSE)
+[![Status](https://img.shields.io/badge/Statut-v1.0.0-orange?style=for-the-badge)]()
 
-✅ **Sprint 1 livré** — Onboarding complet + Authentification + Navigation
+**Wave 🌊 · Orange Money 🟠 · MTN MoMo 🟡**
 
-### Fonctionnalités opérationnelles
-- 🌅 **Splash Screen** avec motif kente et vérification automatique de session
-- 📱 **Inscription** par numéro de téléphone (sélecteur de pays — drapeau CI par défaut)
-- 🔢 **Vérification OTP** à 6 chiffres avec timer de renvoi (60 s)
-- 👤 **Création de profil** (prénom, nom, email optionnel)
-- 🔐 **Connexion** d'un utilisateur existant
-- 🏠 **Tableau de bord** avec salutation personnalisée + cartes de statistiques
-- 🧭 **Navigation principale** à 4 onglets (Accueil, Mes groupes, Paiements, Profil)
-- 🔓 **Déconnexion** sécurisée avec confirmation
-- 💾 **Persistance de session** via SharedPreferences (auto-reconnexion au lancement)
-
-### Mode démo intégré 🎯
-Aucun backend nécessaire pour tester :
-- Le code OTP valide est **`123456`**
-- Toutes les données utilisateur sont stockées localement
-- Tu peux faire tout le parcours d'inscription → accueil sans serveur
-
-### À venir (sprints suivants)
-- 🔜 **Sprint 2** — Création et gestion des tontines (groupes, membres)
-- 🔜 **Sprint 3** — Cotisations et cycles de paiement
-- 🔜 **Sprint 4** — Intégration Mobile Money (Wave, Orange Money, MTN MoMo)
-- 🔜 **Sprint 5** — Notifications push, paramètres avancés, finitions
+</div>
 
 ---
 
-## 🚀 Démarrage rapide
+## 📖 À propos
 
-### Prérequis
-- **Flutter SDK** ≥ 3.27.0 ([installer Flutter](https://docs.flutter.dev/get-started/install))
-- **Dart SDK** ≥ 3.6.0 (inclus avec Flutter)
-- **Android Studio** ou **VS Code** avec l'extension Flutter
-- Un émulateur Android, un simulateur iOS, ou un appareil physique
+**TontineApp** digitalise les **tontines** — un mécanisme d'épargne collective rotative ancré dans la culture financière ivoirienne, où chaque membre cotise régulièrement et reçoit à tour de rôle la totalité de la cagnotte.
 
-### 1️⃣ Vérifier l'installation Flutter
+L'application répond à trois problèmes du modèle traditionnel : la **traçabilité** (registres papier qui se perdent), la **confiance** (gestion manuelle propice aux litiges) et la **friction des paiements** (cash à transporter physiquement).
 
-Ouvre un terminal et lance :
-```bash
-flutter doctor
-```
-Toutes les coches `[✓]` doivent être vertes pour Flutter, l'éditeur et au moins une plateforme cible (Android ou iOS).
+Elle propose une expérience mobile-first pensée pour le contexte ivoirien : interface en français, identité visuelle aux couleurs nationales, intégration des trois opérateurs Mobile Money dominants (Wave, Orange Money, MTN MoMo), et persistance locale pour fonctionner même en cas de connexion intermittente.
 
-### 2️⃣ Cloner / extraire le projet
-
-Place le dossier `tontineapp/` dans ton workspace, puis :
-```bash
-cd tontineapp
-```
-
-### 3️⃣ Installer les dépendances
-```bash
-flutter pub get
-```
-
-### 4️⃣ Lancer l'application
-```bash
-flutter run
-```
-Sélectionne ton appareil dans la liste si plusieurs sont disponibles.
-
-### 5️⃣ Tester le parcours
-1. Au lancement, l'écran Splash s'affiche pendant 2 secondes
-2. Tu arrives sur l'écran de **Connexion**
-3. Clique sur **« Créer un compte »** en bas
-4. Saisis un numéro de téléphone valide (ex. `07 07 97 82 18`)
-5. Clique sur **Continuer** → écran OTP
-6. Saisis le code **`123456`** (mode démo)
-7. Renseigne ton prénom et nom → **Terminer**
-8. 🎉 Tu arrives sur le tableau de bord !
+> ℹ️ **Note** : ce projet est un démonstrateur technique (POC). L'intégration Mobile Money est **simulée** via le pattern Strategy — l'architecture est prête à brancher de vraies API en production.
 
 ---
 
-## 🏗️ Architecture du projet
+## ✨ Fonctionnalités
 
-Le projet adopte une **Clean Architecture** combinée à une organisation **feature-first** :
+### 🔐 Authentification
+- Inscription / connexion par numéro de téléphone (préfixe +225)
+- Vérification OTP à 6 chiffres (mode démo : `123456`)
+- Création de profil avec validation
+- Session persistante via `SharedPreferences`
 
-```
-tontineapp/
-│
-├── pubspec.yaml                  # Dépendances et configuration Flutter
-├── analysis_options.yaml         # Règles du linter Dart
-├── .gitignore                    # Fichiers ignorés par Git
-├── README.md                     # Ce fichier
-│
-├── lib/                          # Tout le code Dart
-│   │
-│   ├── main.dart                 # 🚪 Point d'entrée
-│   │
-│   ├── core/                     # 🧱 Code transverse à toute l'application
-│   │   ├── constantes/
-│   │   │   ├── couleurs.dart     #   Palette ivoirienne (orange, vert, blanc)
-│   │   │   ├── tailles.dart      #   Espacements, rayons, hauteurs
-│   │   │   ├── chaines.dart      #   Chaînes de caractères centralisées
-│   │   │   └── routes_noms.dart  #   Noms des routes nommées
-│   │   ├── themes/
-│   │   │   └── theme_app.dart    #   Thème Material 3
-│   │   ├── routes/
-│   │   │   └── routes_app.dart   #   Table de routes
-│   │   ├── utils/
-│   │   │   ├── validateurs.dart  #   Validateurs (téléphone, OTP, email)
-│   │   │   └── formatteurs.dart  #   Formatteurs (FCFA, dates)
-│   │   ├── erreurs/
-│   │   │   └── exceptions.dart   #   Hiérarchie d'exceptions
-│   │   └── entites/
-│   │       └── utilisateur.dart  #   Modèle de domaine Utilisateur
-│   │
-│   ├── features/                 # 📦 Modules fonctionnels indépendants
-│   │   │
-│   │   ├── splash/
-│   │   │   └── presentation/ecrans/splash_ecran.dart
-│   │   │
-│   │   ├── authentification/
-│   │   │   ├── data/
-│   │   │   │   └── repositories/auth_repository_demo.dart
-│   │   │   ├── domaine/
-│   │   │   │   └── contracts/auth_repository.dart
-│   │   │   └── presentation/
-│   │   │       ├── ecrans/
-│   │   │       │   ├── inscription_ecran.dart
-│   │   │       │   ├── verification_otp_ecran.dart
-│   │   │       │   ├── creation_profil_ecran.dart
-│   │   │       │   └── connexion_ecran.dart
-│   │   │       └── providers/auth_provider.dart
-│   │   │
-│   │   └── accueil/
-│   │       └── presentation/
-│   │           ├── ecrans/
-│   │           │   ├── accueil_principal_ecran.dart  # Hôte avec NavigationBar
-│   │           │   ├── tableau_bord_ecran.dart       # Onglet 1
-│   │           │   ├── mes_groupes_ecran.dart        # Onglet 2 (placeholder)
-│   │           │   ├── paiements_ecran.dart          # Onglet 3 (placeholder)
-│   │           │   └── profil_ecran.dart             # Onglet 4
-│   │           └── widgets/
-│   │               └── carte_statistique.dart
-│   │
-│   └── shared/                   # 🤝 Widgets et services partagés
-│       └── widgets/
-│           ├── bouton_primaire.dart
-│           ├── champ_texte.dart
-│           └── motif_kente.dart  # Motif géométrique inspiré du Kente
-│
-├── assets/
-│   ├── images/                   # (Vide pour l'instant — Sprint 1 sans images)
-│   └── fonts/                    # (Pour ajouter des polices custom plus tard)
-│
-└── test/
-    └── widget_test.dart          # Test de fumée minimal
-```
+### 👥 Gestion des tontines
+- Création de tontines avec montant, fréquence (hebdo/bi-mensuelle/mensuelle), date de début
+- Invitation de membres par numéro
+- Activation avec génération automatique du calendrier des tours
+- Vue détaillée avec membres, calendrier, statistiques
 
-### Pourquoi cette structure ?
+### 💰 Cotisations
+- Génération automatique des cotisations par tour
+- Workflow de statuts : `attendue` → `payée` → `validée`
+- Validation par l'administrateur (mode hors-ligne)
+- Clôture automatique du tour quand toutes les cotisations sont validées
 
-- **`core/`** contient ce qui est partagé entre toutes les features : couleurs, thème, validateurs, etc.
-- **`features/`** isole chaque domaine fonctionnel. On peut ajouter `tontines/`, `paiements/`, `notifications/` sans toucher au reste.
-- Chaque feature a 3 sous-couches :
-  - **`data/`** — implémentations concrètes (API, BDD, mémoire)
-  - **`domaine/`** — contrats, entités métier (indépendants de la techno)
-  - **`presentation/`** — UI (écrans, providers, widgets spécifiques)
-- **`shared/`** contient les widgets génériques utilisés par plusieurs features.
+### 💸 Paiements Mobile Money
+- Sélecteur d'opérateur avec habillage propre à chaque marque
+- Flux de paiement complet : choix → saisie OTP → confirmation → reçu
+- Auto-validation de la cotisation au succès du paiement
+- Historique complet avec frais détaillés
+- Codes de démo : OTP universel `1234`
+
+### 🔔 Notifications
+- Centre de notifications in-app avec badge de non-lues
+- Notifications natives Android (`flutter_local_notifications`)
+- Déclenchement automatique sur les événements importants (paiement, validation, clôture)
+
+### 👤 Profil
+- Modification du profil (prénom, nom, email)
+- Statistiques personnelles enrichies (tontines actives, total cotisé, total reçu)
+- Réinitialisation des données démo
 
 ---
 
-## 🎨 Identité visuelle
+## 📸 Captures d'écran
 
-Inspirée du **drapeau de la Côte d'Ivoire** :
-- 🟠 **Orange `#F77F00`** — couleur principale, énergie, dynamisme
-- ⚪ **Blanc `#FFFFFF`** — neutralité, espaces, fond
-- 🟢 **Vert `#009E60`** — succès, confirmations, croissance
+> 🚧 Captures à venir.
 
-Le **motif kente** sur le Splash apporte une touche d'authenticité africaine.
+<!--
+Une fois tes captures prêtes, remplace cette section par :
+
+| Onboarding | Tableau de bord | Détail tour |
+|:---:|:---:|:---:|
+| ![Splash](assets/screenshots/01_splash.png) | ![Dashboard](assets/screenshots/02_dashboard.png) | ![Detail](assets/screenshots/03_detail_tour.png) |
+
+| Choix opérateur | Confirmation Wave | Reçu de paiement |
+|:---:|:---:|:---:|
+| ![Operateur](assets/screenshots/04_choix_operateur.png) | ![Wave](assets/screenshots/05_wave_otp.png) | ![Recu](assets/screenshots/06_recu.png) |
+-->
+
+---
+
+## 🏗️ Architecture
+
+Le projet suit une **Clean Architecture feature-first** combinée à plusieurs design patterns clés :
+
+```
+lib/
+├── core/                        # Couche transversale
+│   ├── constantes/              # Couleurs, tailles, routes nommées, textes
+│   ├── donnees/                 # Service de persistance JSON cross-platform
+│   ├── entites/                 # Entités métier (Utilisateur, Tontine, Tour...)
+│   ├── erreurs/                 # Hiérarchie d'exceptions métier
+│   ├── routes/                  # Configuration de navigation
+│   ├── themes/                  # Theme Material 3 personnalisé
+│   └── utils/                   # Formatteurs (FCFA, dates) et validateurs
+│
+├── features/                    # Modules feature isolés
+│   ├── authentification/        # Inscription, OTP, profil
+│   ├── splash/                  # Écran de démarrage
+│   ├── accueil/                 # Navigation principale (4 onglets)
+│   ├── tontines/                # Création, gestion, membres, calendrier
+│   ├── cotisations/             # Workflow des cotisations
+│   ├── paiements/               # Mobile Money (Wave / OM / MTN)
+│   └── notifications/           # Centre in-app + notifications natives
+│
+└── shared/                      # Composants UI réutilisables
+    └── widgets/                 # Boutons, champs, cartes statistiques...
+```
+
+Chaque module **feature** est organisé en trois sous-couches :
+
+```
+features/<nom>/
+├── domaine/                     # Contrats abstraits (interfaces) et entités spécifiques
+│   ├── contracts/
+│   └── entites/
+├── data/                        # Implémentations concrètes
+│   ├── repositories/            # Persistance JSON
+│   └── services/                # Services techniques (notifs natives...)
+└── presentation/                # UI et état
+    ├── providers/               # ChangeNotifier (gestion d'état)
+    ├── widgets/                 # Composants spécifiques au module
+    └── ecrans/                  # Écrans complets
+```
+
+### Patterns appliqués
+
+| Pattern | Où | Pourquoi |
+|---|---|---|
+| **Repository Pattern** | Chaque feature a son `XxxRepository` (contrat) + impl | Découple la logique métier de la persistance |
+| **Strategy Pattern** | `OperateurMobileMoney` + 3 implémentations (Wave, OM, MTN) | Ajouter un nouvel opérateur ne touche pas le reste du code |
+| **Provider Pattern** | Tous les états UI via `provider` package | Réactivité fine sans complexité de Bloc/Riverpod |
+| **Proxy Provider** | `TontineProvider` dépend de `AuthProvider` | Compose les providers de manière déclarative |
+| **Singleton** | Repositories `*Demo` | Une seule source de vérité en mémoire |
 
 ---
 
 ## 🛠️ Stack technique
 
-| Catégorie         | Technologie                  |
-|-------------------|------------------------------|
-| Framework         | Flutter 3.27+                |
-| Langage           | Dart 3.6+                    |
-| Design system     | Material 3                   |
-| Gestion d'état    | Provider                     |
-| Stockage local    | shared_preferences           |
-| OTP UI            | pin_code_fields              |
-| Téléphone i18n    | intl_phone_field             |
-| Internationalisation | intl                      |
-| Linter            | flutter_lints                |
+- **Framework** : Flutter 3.27+
+- **Langage** : Dart 3.6+ (null-safety, sealed/abstract classes)
+- **State Management** : `provider`
+- **Persistance** : JSON local via `path_provider` + sérialisation manuelle (`versJson` / `depuisJson`)
+- **UI Kit** : Material 3 + thème personnalisé aux couleurs ivoiriennes
+- **Notifications natives** : `flutter_local_notifications` + core library desugaring
+- **Internationalisation** : `flutter_localizations` (FR par défaut)
+- **Saisie spécialisée** : `intl_phone_field` (numéro CI), `pin_code_fields` (OTP)
+- **Architecture** : Clean Architecture · Repository Pattern · Strategy Pattern
 
 ---
 
-## 🧪 Lancer les tests
+## 🚀 Installation et lancement
+
+### Prérequis
+
+- Flutter SDK ≥ 3.27 ([guide d'installation](https://docs.flutter.dev/get-started/install))
+- Android Studio ou VS Code avec extension Flutter
+- Émulateur Android (API 24+) ou appareil physique
+- JDK 17
+
+### Lancer le projet
+
 ```bash
-flutter test
+# Cloner le repo
+git clone https://github.com/Overlord-Oden/tontine-ci.git
+cd tontine-ci
+
+# Installer les dépendances
+flutter pub get
+
+# Lancer l'app sur un émulateur démarré
+flutter run
 ```
 
----
+### Permission Android pour les notifications
 
-## 📝 Conventions de code
+Sur Android 13+ (API 33+), assurez-vous que la permission `POST_NOTIFICATIONS` est déclarée dans `android/app/src/main/AndroidManifest.xml` :
 
-- **Langue du code** : français (variables, classes, commentaires)
-- **Nommage des fichiers** : `snake_case.dart`
-- **Nommage des classes** : `PascalCase` en français (ex. `BoutonPrimaire`)
-- **Nommage des variables** : `camelCase` en français (ex. `numeroTelephone`)
-- **const partout où possible** (le linter le rappelle)
-- **Trailing commas** obligatoires (le linter le rappelle)
+```xml
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+```
 
----
+### Codes de démo
 
-## 🐛 Problèmes connus
-
-- Si `flutter pub get` échoue, vérifie ta version de Flutter (`flutter --version`).
-- Sur iOS, après `pub get`, il peut être nécessaire de lancer `cd ios && pod install && cd ..`.
-- Le motif kente du Splash peut être lourd sur très anciens appareils — c'est volontairement décoratif.
+| Étape | Code |
+|---|---|
+| 🔐 Vérification OTP de connexion | `123456` |
+| 💸 Confirmation paiement Mobile Money (Wave / OM / MTN) | `1234` |
 
 ---
 
-## 📞 Contact projet
+## 🎯 Décisions techniques notables
 
-Application développée dans le cadre du projet **TontineApp** — digitalisation des tontines en Côte d'Ivoire.
+### Pourquoi JSON et pas SQLite ?
 
-🇨🇮 **Akwaba sur TontineApp !**
+Pour une app de tontine, les volumes restent modestes (quelques Mo max) et les requêtes sont simples (filtrer par utilisateur ou par tontine). La persistance JSON via `path_provider` offre :
+
+- 🪶 Aucune dépendance native (Android, iOS, Windows desktop, web sans config)
+- 🔍 Fichiers lisibles et inspectables pour debug
+- 🧪 Plus simple à tester
+- 🚀 Migration vers SQLite possible plus tard sans changer les contrats
+
+### Pourquoi le pattern Strategy pour Mobile Money ?
+
+Les trois opérateurs (Wave, Orange Money, MTN MoMo) ont des spécificités (frais, format OTP, branding) mais le **flux global est identique**. Une interface `OperateurMobileMoney` avec trois implémentations permet :
+
+- ➕ Ajouter un nouvel opérateur = créer une nouvelle classe, rien d'autre
+- 🔁 Remplacer la version simulée par une vraie API ne touche que la classe concernée
+- 🧪 Mocker un opérateur en test est trivial
+
+### Pourquoi pas de backend ?
+
+Le scope du projet est volontairement **front-only** :
+- ✅ Démontre une architecture mobile complète et maîtrisée
+- ✅ Permet une démo offline immédiate
+- ✅ Le backend est un projet à part entière (qui mériterait son propre repo)
+
+L'architecture est prête à brancher un backend : chaque repository `*Demo` peut être remplacé par un `*Api` qui appelle des endpoints REST/GraphQL.
+
+---
+
+## 📊 Statistiques du projet
+
+- 📁 **72 fichiers Dart**
+- 📝 **~10 800 lignes de code**
+- 🧩 **7 modules feature**
+- 🎯 **5 sprints livrés** (Auth → Tontines → Cotisations → Persistance → Mobile Money → Notifications)
+
+---
+
+## 🗺️ Roadmap
+
+Pistes d'évolution explorables :
+
+- [ ] Intégration de vraies API Mobile Money (Wave, OM, MTN)
+- [ ] Backend Node.js / Firebase pour la synchronisation multi-appareils
+- [ ] Tests unitaires et d'intégration
+- [ ] Mode sombre
+- [ ] Internationalisation (anglais, langues locales)
+- [ ] Export PDF des relevés de cotisation
+- [ ] Notifications push via Firebase Cloud Messaging
+- [ ] Signature numérique des accords de tontine
+
+---
+
+## 📄 Licence
+
+Ce projet est distribué sous licence **MIT** — voir le fichier [LICENSE](LICENSE) pour les détails.
+
+---
+
+## 👤 Auteur
+
+**Allassane Diomandé**
+
+- 💼 LinkedIn : *[à compléter — colle l'URL de ton profil ici]*
+- 🐙 GitHub : [@Overlord-Oden](https://github.com/Overlord-Oden)
+- 📍 Abidjan, Côte d'Ivoire 🇨🇮
+
+---
+
+<div align="center">
+
+⭐ Si ce projet t'intéresse, n'hésite pas à laisser une étoile !
+
+</div>
