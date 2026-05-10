@@ -1,0 +1,49 @@
+name: tontineapp
+description: "Application mobile de gestion de tontines numériques en Côte d'Ivoire"
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.6.0 <4.0.0"
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Icônes
+  cupertino_icons: ^1.0.8
+
+  # Gestion d'état
+  provider: ^6.1.2
+
+  # Stockage local sécurisé (pour la session utilisateur)
+  shared_preferences: ^2.3.2
+
+  # Accès au système de fichiers cross-platform (persistance JSON)
+  path_provider: ^2.1.4
+
+  # Formatage des dates et nombres en français
+  intl: ^0.20.2
+
+  # Champs OTP stylés
+  pin_code_fields: ^8.0.1
+
+  # Champs de saisie de numéro de téléphone international
+  intl_phone_field: ^3.2.0
+
+  # Notifications natives Android / iOS (Sprint 5)
+  flutter_local_notifications: ^17.2.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
