@@ -259,7 +259,9 @@ Ce projet est distribué sous licence **MIT** — voir le fichier [LICENSE](LICE
 
 **Allassane Diomandé**
 
-- 💼 LinkedIn : *[à compléter — colle l'URL de ton profil ici]*
+- 💼 LinkedIn : *[www.linkedin.com/in/
+allassane-diomande-90281934a
+]*
 - 🐙 GitHub : [@Overlord-Oden](https://github.com/Overlord-Oden)
 - 📍 Abidjan, Côte d'Ivoire 🇨🇮
 
